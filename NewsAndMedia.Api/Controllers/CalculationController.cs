@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using NewsAndMedia.Core.Interfaces;
+using NewsAndMedia.Infrastructure.Services;
 using NewsAndMedia.Model.Request;
 using NewsAndMedia.Model.Response;
 
@@ -12,11 +13,17 @@ namespace NewsAndMedia.Api.Controllers
     {
         private readonly IMemoryCache _memoryCache;
         private readonly ICalculationService _calculationService;
+        private readonly IMessageClient _messageClient;
+        
         public CalculationController(ICalculationService calculationService,
-            IMemoryCache memoryCache) 
+            IMemoryCache memoryCache,
+            IMessageClient messasgeClient) 
         {
             _calculationService = calculationService;
             _memoryCache = memoryCache;
+            _messageClient = messasgeClient;
+            
+            _messageClient.InitClient();
         }
 
         [HttpPost("{key}")]
@@ -47,6 +54,9 @@ namespace NewsAndMedia.Api.Controllers
                     InputValue = request.Input.Value,
                     PreviousValue = cacheValue
                 };
+
+                _messageClient.SendMessage(response.ComputedValue);
+
                 return Ok(response);
             }
             catch(ArgumentNullException ex)
