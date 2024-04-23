@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NewsAndMedia.Model\NewsAndMedia.Model.csproj" />
+  </ItemGroup>
+
 </Project>

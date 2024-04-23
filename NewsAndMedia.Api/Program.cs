@@ -12,6 +12,7 @@ builder.Services.AddDbContext<NewsAndMediaDbContext> (options =>
 
 builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 builder.Services.AddSingleton<ICalculationService, CalculationService>();
+builder.Services.AddScoped<IMessageClient, MessageClient>();
 
 builder.Services.AddControllers();
 
