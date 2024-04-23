@@ -1,0 +1,12 @@
+@NewsAndMedia.Api_HostAddress = http://localhost:5172
+
+POST {{NewsAndMedia.Api_HostAddress}}/calculation/101
+Accept: application/json
+Content-Type: application/json
+
+{
+    "input": "10"
+}
+
+
+###
