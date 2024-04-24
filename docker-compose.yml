@@ -26,7 +26,13 @@ services:
             - "15672:15672"  # RabbitMQ management UI
         environment:
             RABBITMQ_DEFAULT_USER: user
-            RABBITMQ_DEFAULT_PASS: Heslo1234        
+            RABBITMQ_DEFAULT_PASS: Heslo1234     
+        healthcheck:
+            test: rabbitmq-diagnostics -q ping
+            interval: 30s
+            timeout: 10s
+            retries: 30
+            start_period: 10s
 
     newsandmedia.api:
         image: ${DOCKER_REGISTRY-}newsandmediaapi
@@ -44,4 +50,7 @@ services:
         image: ${DOCKER_REGISTRY-}newsandmediaworkerservice
         build:
             context: .
-            dockerfile: NewsAndMedia.WorkerService/Dockerfile        
+            dockerfile: NewsAndMedia.WorkerService/Dockerfile
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
