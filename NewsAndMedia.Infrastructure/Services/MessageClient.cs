@@ -12,6 +12,7 @@ namespace NewsAndMedia.Infrastructure.Services
     {
         private IModel? _channel;
         private IConnection? _connection;
+        private ConnectionFactory? _factory = null;
         private readonly ILogger<MessageClient> _logger;
         private readonly RabbitMqConfiguration _rabbitMqConfiguration;
 
@@ -33,6 +34,8 @@ namespace NewsAndMedia.Infrastructure.Services
                 _connection?.Close();
                 _connection?.Dispose();
                 _connection = null;
+
+                _factory = null;
             }
             catch (Exception ex)
             {
@@ -42,18 +45,22 @@ namespace NewsAndMedia.Infrastructure.Services
 
         public void InitClient()
         {
-            var factory = new ConnectionFactory
+            if (_factory is null)
             {
-                HostName = _rabbitMqConfiguration.Host,
-                Port = _rabbitMqConfiguration.Port,
-                UserName = _rabbitMqConfiguration.User,
-                Password = _rabbitMqConfiguration.Password
+                _factory = new ConnectionFactory
+                {
+                    HostName = _rabbitMqConfiguration.Host,
+                    Port = _rabbitMqConfiguration.Port,
+                    UserName = _rabbitMqConfiguration.User,
+                    Password = _rabbitMqConfiguration.Password
 
-            };
+                };
+            }
+
             if (_connection is null || 
                 !_connection.IsOpen)
             {
-                _connection = factory.CreateConnection();
+                _connection = _factory.CreateConnection();
             }
 
             if (_channel is null || 
