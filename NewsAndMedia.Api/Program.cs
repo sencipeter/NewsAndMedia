@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using NewsAndMedia.Core;
 using NewsAndMedia.Core.Interfaces;
 using NewsAndMedia.Infrastructure;
 using NewsAndMedia.Infrastructure.Services;
@@ -9,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<NewsAndMediaDbContext> (options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("AppConnectionString"))
 );
+
+builder.Services.Configure<RabbitMqConfiguration>(
+    builder.Configuration.GetSection(RabbitMqConfiguration.Position));
 
 builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 builder.Services.AddSingleton<ICalculationService, CalculationService>();

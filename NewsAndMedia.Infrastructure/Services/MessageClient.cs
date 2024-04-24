@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using NewsAndMedia.Core;
 using NewsAndMedia.Core.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -8,13 +10,16 @@ namespace NewsAndMedia.Infrastructure.Services
 {
     public class MessageClient : IMessageClient, IDisposable
     {
-        IModel? _channel;
-        IConnection? _connection;
-        ILogger<MessageClient> _logger;
+        private IModel? _channel;
+        private IConnection? _connection;
+        private readonly ILogger<MessageClient> _logger;
+        private readonly RabbitMqConfiguration _rabbitMqConfiguration;
 
-        public MessageClient(ILogger<MessageClient> logger)
+        public MessageClient(ILogger<MessageClient> logger,
+            IOptions<RabbitMqConfiguration> RabbitMqConfigurationOptions)
         {
             _logger = logger;
+            _rabbitMqConfiguration = RabbitMqConfigurationOptions.Value;
         }
 
         public void Dispose()
@@ -39,10 +44,10 @@ namespace NewsAndMedia.Infrastructure.Services
         {
             var factory = new ConnectionFactory
             {
-                HostName = "host.docker.internal",
-                Port = 5672,
-                UserName = "user",
-                Password = "Heslo1234"
+                HostName = _rabbitMqConfiguration.Host,
+                Port = _rabbitMqConfiguration.Port,
+                UserName = _rabbitMqConfiguration.User,
+                Password = _rabbitMqConfiguration.Password
 
             };
             if (_connection is null || 

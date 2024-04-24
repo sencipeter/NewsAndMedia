@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using NewsAndMedia.Core;
 using NewsAndMedia.Core.Interfaces;
 using NewsAndMedia.Infrastructure.Services;
 using NewsAndMedia.Model.Request;
@@ -21,7 +22,7 @@ namespace NewsAndMedia.Api.Controllers
         {
             _calculationService = calculationService;
             _memoryCache = memoryCache;
-            _messageClient = messasgeClient;
+            _messageClient = messasgeClient;            
             
             _messageClient.InitClient();
         }

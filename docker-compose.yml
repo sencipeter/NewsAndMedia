@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+    db:
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_DB: news-and-media-database-test
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: Heslo1234
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 30
+
+    rabbitmq:
+        image: rabbitmq:management
+        restart: always
+        ports:
+            - "5672:5672"  # RabbitMQ main port
+            - "15672:15672"  # RabbitMQ management UI
+        environment:
+            RABBITMQ_DEFAULT_USER: user
+            RABBITMQ_DEFAULT_PASS: Heslo1234        
+
+    newsandmedia.api:
+        image: ${DOCKER_REGISTRY-}newsandmediaapi
+        ports:
+            - "9000:8080"
+            - "9001:8081"
+        build:
+            context: .
+            dockerfile: NewsAndMedia.Api/Dockerfile
+        depends_on:             
+            db:
+                condition: service_healthy           
+
+    newsandmedia.workerservice:
+        image: ${DOCKER_REGISTRY-}newsandmediaworkerservice
+        build:
+            context: .
+            dockerfile: NewsAndMedia.WorkerService/Dockerfile        

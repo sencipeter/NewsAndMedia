@@ -7,15 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.Api", "NewsAnd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.Model", "NewsAndMedia.Model\NewsAndMedia.Model.csproj", "{7E2DD2F8-CDB9-4D68-A984-22D8E28FB288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAndMedia.Infrastructure", "NewsAndMedia.Infrastructure\NewsAndMedia.Infrastructure.csproj", "{DD3B6B9E-B0D5-48E6-B418-CE850CAF0C4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.Infrastructure", "NewsAndMedia.Infrastructure\NewsAndMedia.Infrastructure.csproj", "{DD3B6B9E-B0D5-48E6-B418-CE850CAF0C4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAndMedia.Core", "NewsAndMedia.Core\NewsAndMedia.Core.csproj", "{C0BEF9F3-F53A-4526-8959-7CF8E7C479E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.Core", "NewsAndMedia.Core\NewsAndMedia.Core.csproj", "{C0BEF9F3-F53A-4526-8959-7CF8E7C479E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{100B2423-06DF-4774-8CE3-362508755409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAndMedia.Tests", "NewsAndMedia.Tests\NewsAndMedia.Tests.csproj", "{28B0E34D-3B83-4ADD-8151-9801B7E0D1C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.Tests", "NewsAndMedia.Tests\NewsAndMedia.Tests.csproj", "{28B0E34D-3B83-4ADD-8151-9801B7E0D1C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAndMedia.WorkerService", "NewsAndMedia.WorkerService\NewsAndMedia.WorkerService.csproj", "{04B83250-6F2E-4352-8015-FCFFF2D204E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsAndMedia.WorkerService", "NewsAndMedia.WorkerService\NewsAndMedia.WorkerService.csproj", "{04B83250-6F2E-4352-8015-FCFFF2D204E3}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4D55538C-96D4-4491-9DE1-1C277C247DFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{04B83250-6F2E-4352-8015-FCFFF2D204E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04B83250-6F2E-4352-8015-FCFFF2D204E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04B83250-6F2E-4352-8015-FCFFF2D204E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D55538C-96D4-4491-9DE1-1C277C247DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D55538C-96D4-4491-9DE1-1C277C247DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D55538C-96D4-4491-9DE1-1C277C247DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D55538C-96D4-4491-9DE1-1C277C247DFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
