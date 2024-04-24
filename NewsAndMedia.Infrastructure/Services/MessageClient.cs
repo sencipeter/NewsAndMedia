@@ -1,14 +1,39 @@
-﻿using NewsAndMedia.Core.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using NewsAndMedia.Core.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Threading.Channels;
 
 namespace NewsAndMedia.Infrastructure.Services
 {
-    public class MessageClient : IMessageClient
+    public class MessageClient : IMessageClient, IDisposable
     {
         IModel? _channel;
+        IConnection? _connection;
+        ILogger<MessageClient> _logger;
+
+        public MessageClient(ILogger<MessageClient> logger)
+        {
+            _logger = logger;
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                _channel?.Close();
+                _channel?.Dispose();
+                _channel = null;
+
+                _connection?.Close();
+                _connection?.Dispose();
+                _connection = null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, ex.Message);
+            }
+        }
 
         public void InitClient()
         {
@@ -20,14 +45,22 @@ namespace NewsAndMedia.Infrastructure.Services
                 Password = "Heslo1234"
 
             };
-            var connection = factory.CreateConnection();
-            _channel = connection.CreateModel();
+            if (_connection is null || 
+                !_connection.IsOpen)
+            {
+                _connection = factory.CreateConnection();
+            }
 
-            _channel.QueueDeclare(queue: "NewsAndMedia",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+            if (_channel is null || 
+                !_channel.IsOpen)
+            {
+                _channel = _connection.CreateModel();
+                _channel.QueueDeclare(queue: "NewsAndMedia",
+                                     durable: false,
+                                     exclusive: false,
+                                     autoDelete: false,
+                                     arguments: null);
+            }
         }
         public void ReceiveMessage()
         {
